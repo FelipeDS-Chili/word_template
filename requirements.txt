@@ -9,3 +9,11 @@ black
 yapf
 python-gitlab
 twine
+Flask
+Flask-Cors
+flask
+gunicorn
+bs4
+streamlit==0.64.0
+matplotlib
+docxtpl

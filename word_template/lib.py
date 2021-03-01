@@ -2,56 +2,57 @@
 # Copyright (C) 2018 Jean Bizot <jean@styckr.io>
 """ Main lib for word_template Project
 """
-
+from docxtpl import DocxTemplate
 from os.path import split
 import pandas as pd
 import datetime
+import locale
+import time
 
-pd.set_option('display.width', 200)
 
+time.strftime("%A %d %B %Y").upper()
 
-def clean_data(data):
-    """ clean data
-    """
-    # Remove columns starts with vote
-    cols = [x for x in data.columns if x.find('vote') >= 0]
-    data.drop(cols, axis=1, inplace=True)
-    # Remove special characteres from columns
-    data.loc[:, 'civility'] = data['civility'].replace('\.', '', regex=True)
-    # Calculate Age from day of birth
-    actual_year = datetime.datetime.now().year
-    data.loc[:, 'Year_Month'] = pd.to_datetime(data.birthdate)
-    data.loc[:, 'Age'] = actual_year - data['Year_Month'].dt.year
-    # Uppercase variable to avoid duplicates
-    data.loc[:, 'city'] = data['city'].str.upper()
-    # Take 2 first digits, 2700 -> 02700 so first two are region
-    data.loc[:, 'postal_code'] = data.postal_code.str.zfill(5).str[0:2]
-    # Remove columns with more than 50% of nans
-    cnans = data.shape[0] / 2
-    data = data.dropna(thresh=cnans, axis=1)
-    # Remove rows with more than 50% of nans
-    rnans = data.shape[1] / 2
-    data = data.dropna(thresh=rnans, axis=0)
-    # Discretize based on quantiles
-    data.loc[:, 'duration'] = pd.qcut(data['surveyduration'], 10)
-    # Discretize based on values
-    data.loc[:, 'Age'] = pd.cut(data['Age'], 10)
-    # Rename columns
-    data.rename(columns={'q1': 'Frequency'}, inplace=True)
-    # Transform type of columns
-    data.loc[:, 'Frequency'] = data['Frequency'].astype(int)
-    # Rename values in rows
-    drows = {1: 'Manytimes', 2: 'Onetimebyday', 3: '5/6timesforweek',
-             4: '4timesforweek', 5: '1/3timesforweek', 6: '1timeformonth',
-             7: '1/trimestre', 8: 'Less', 9: 'Never'}
-    data.loc[:, 'Frequency'] = data['Frequency'].map(drows)
-    return data
+def mkw(nombre_empresa, ciudad_empresa, calle_empresa ,rut_empresa, nombre_dueno, rut_dueno, prefijo_nombre_empleado, nombre_empleado,
+        rut_empleado, nacimiento_empleado, direccion_empleado, comuna_empleado, cargo_empleado, empresa_nombre_corto, sueldo, bono_movilizacion,
+        isapre, afp, dia_termino_contrato,  mes_termino_contrato, ano_termino_contrato, dia_comienzo_contrato, mes_comienzo_contrato,ano_comienzo_contrato
+         ):
+    tpl = DocxTemplate('template.docx')
+    locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+    context = {
+    'nombre_empresa': nombre_empresa,
+    'ciudad_empresa': ciudad_empresa,
+    'fecha_actual': time.strftime("%A %d de %B del %Y").upper(),
+
+    'rut_empresa': rut_empresa,
+    'nombre_dueno': nombre_dueno,
+    'rut_dueno': rut_dueno,
+    'calle_empresa': calle_empresa,
+    'prefijo_nombre_empleado': prefijo_nombre_empleado,
+    'nombre_empleado': nombre_empleado,
+    'rut_empleado': rut_empleado,
+    'nacimiento_empleado': nacimiento_empleado,
+    'direccion_empleado': direccion_empleado,
+    'comuna_empleado': comuna_empleado,
+    'cargo_empleado': cargo_empleado,
+    'empresa_nombre_corto': empresa_nombre_corto,
+    'sueldo': sueldo,
+    'bono_movilizacion': bono_movilizacion,
+    'isapre': isapre,
+    'afp': afp,
+    'dia_termino_contrato':dia_termino_contrato,
+    'mes_termino_contrato':mes_termino_contrato,
+    'ano_termino_contrato':ano_termino_contrato,
+    'dia_comienzo_contrato':dia_comienzo_contrato,
+    'mes_comienzo_contrato':mes_comienzo_contrato,
+    'ano_comienzo_contrato':ano_comienzo_contrato,
+    'ciudad_contrato':ciudad_empresa
+    }
+
+    tpl.render(context)
+
+    return tpl.save('Contrato.docx')
 
 
 if __name__ == '__main__':
-    # For introspections purpose to quickly get this functions on ipython
-    import word_template
-    folder_source, _ = split(word_template.__file__)
-    df = pd.read_csv('{}/data/data.csv.gz'.format(folder_source))
-    clean_data = clean_data(df)
-    print(' dataframe cleaned')
+
+    mkw('hola')
