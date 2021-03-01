@@ -1,0 +1,3 @@
+graft word_template
+global-exclude *.py[cod] __pycache__ *.so *.ipynb
+recursive-exclude  word_template/jupy *
