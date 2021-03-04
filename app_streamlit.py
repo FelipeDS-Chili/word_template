@@ -1,7 +1,7 @@
 from word_template.lib import mkw
 import streamlit as st
 import pandas as pd
-
+import base64
 
 prefijo = ['Don', 'Doña']
 mes = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE']
@@ -46,24 +46,25 @@ dia_termino_contrato = st.selectbox("Dia TERMINO contrato", dia, index=0)
 mes_termino_contrato = st.selectbox("Mes TERMINO contrato", mes, index=0)
 ano_termino_contrato = st.selectbox("Año TERMINO contrato", ano, index=0)
 
+if prefijo_nombre_empleado=='Don':
+    terminacion = 'o'
+else:
+    terminacion = 'a'
 
 
-st.write(mkw(nombre_empresa, ciudad_empresa, calle_empresa ,rut_empresa, nombre_dueno, rut_dueno, prefijo_nombre_empleado, nombre_empleado,
-        rut_empleado, nacimiento_empleado, direccion_empleado, comuna_empleado, cargo_empleado, empresa_nombre_corto, sueldo, bono_movilizacion,
-        isapre, afp, dia_termino_contrato,  mes_termino_contrato, ano_termino_contrato, dia_comienzo_contrato, mes_comienzo_contrato,ano_comienzo_contrato
+st.markdown('DESCARGAR')
+
+# When no file name is given, pandas returns the CSV as a string, nice.
+
+st.write(mkw(nombre_empresa, ciudad_empresa, calle_empresa ,rut_empresa, nombre_dueno, rut_dueno, prefijo_nombre_empleado, terminacion ,nombre_empleado,
+    rut_empleado, nacimiento_empleado, direccion_empleado, comuna_empleado, cargo_empleado, empresa_nombre_corto, sueldo, bono_movilizacion,
+    isapre, afp, dia_termino_contrato,  mes_termino_contrato, ano_termino_contrato, dia_comienzo_contrato, mes_comienzo_contrato,ano_comienzo_contrato
          ))
 
+with open("Contrato.docx", "rb") as pdf_file:
+    b64 = base64.b64encode(pdf_file.read()).decode()
 
-df = pd.DataFrame({'x': list(range(10)), 'y': list(range(10))})
-st.write(df)
 
-if st.button('Download Dataframe as CSV'):
-    tmp_download_link = mkw(nombre_empresa, ciudad_empresa, calle_empresa ,rut_empresa, nombre_dueno, rut_dueno, prefijo_nombre_empleado, nombre_empleado,
-        rut_empleado, nacimiento_empleado, direccion_empleado, comuna_empleado, cargo_empleado, empresa_nombre_corto, sueldo, bono_movilizacion,
-        isapre, afp, dia_termino_contrato,  mes_termino_contrato, ano_termino_contrato, dia_comienzo_contrato, mes_comienzo_contrato,ano_comienzo_contrato
-         )
-    st.markdown(tmp_download_link, unsafe_allow_html=True)
-
-s = st.text_input('Enter text here')
-st.write(s)
+    href = f'<a href="data:file/docx;base64,{b64}">Descargar Contrato</a> (Click derecho y Guardar Como.. &lt;Algun Nombre&gt;.docx)'
+    st.markdown(href, unsafe_allow_html=True)
 

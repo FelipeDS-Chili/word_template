@@ -12,10 +12,11 @@ import time
 
 time.strftime("%A %d %B %Y").upper()
 
-def mkw(nombre_empresa, ciudad_empresa, calle_empresa ,rut_empresa, nombre_dueno, rut_dueno, prefijo_nombre_empleado, nombre_empleado,
+def mkw(nombre_empresa, ciudad_empresa, calle_empresa ,rut_empresa, nombre_dueno, rut_dueno, prefijo_nombre_empleado, terminacion ,nombre_empleado,
         rut_empleado, nacimiento_empleado, direccion_empleado, comuna_empleado, cargo_empleado, empresa_nombre_corto, sueldo, bono_movilizacion,
         isapre, afp, dia_termino_contrato,  mes_termino_contrato, ano_termino_contrato, dia_comienzo_contrato, mes_comienzo_contrato,ano_comienzo_contrato
          ):
+
     tpl = DocxTemplate('template.docx')
     locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
     context = {
@@ -28,6 +29,7 @@ def mkw(nombre_empresa, ciudad_empresa, calle_empresa ,rut_empresa, nombre_dueno
     'rut_dueno': rut_dueno,
     'calle_empresa': calle_empresa,
     'prefijo_nombre_empleado': prefijo_nombre_empleado,
+    'terminacion': terminacion,
     'nombre_empleado': nombre_empleado,
     'rut_empleado': rut_empleado,
     'nacimiento_empleado': nacimiento_empleado,
@@ -49,8 +51,9 @@ def mkw(nombre_empresa, ciudad_empresa, calle_empresa ,rut_empresa, nombre_dueno
     }
 
     tpl.render(context)
+    tpl.save('Contrato.docx')
 
-    return tpl.save('Contrato.docx')
+    return DocxTemplate('Contrato.docx')
 
 
 if __name__ == '__main__':
