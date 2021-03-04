@@ -1,6 +1,5 @@
 from word_template.lib import mkw
 import streamlit as st
-import pandas as pd
 import base64
 
 prefijo = ['Don', 'Doña']
