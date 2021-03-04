@@ -18,7 +18,7 @@ def mkw(nombre_empresa, ciudad_empresa, calle_empresa ,rut_empresa, nombre_dueno
          ):
 
     tpl = DocxTemplate('template.docx')
-    locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+
     context = {
     'nombre_empresa': nombre_empresa,
     'ciudad_empresa': ciudad_empresa,

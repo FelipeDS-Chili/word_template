@@ -17,4 +17,4 @@ bs4
 streamlit==0.64.0
 matplotlib
 docxtpl
-locale
+
