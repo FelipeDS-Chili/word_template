@@ -64,6 +64,6 @@ with open("Contrato.docx", "rb") as pdf_file:
     b64 = base64.b64encode(pdf_file.read()).decode()
 
 
-    href = f'<a href="data:file/docx;base64,{b64}">Descargar Contrato</a> (Click derecho y Guardar Como.. &lt;Algun Nombre&gt;.docx)'
+    href = f'<a href="data:file/docx;base64,{b64}">Descargar Contrato</a> (Clikear en descargar y luego añadir &lt;Algun Nombre&gt;.docx)'
     st.markdown(href, unsafe_allow_html=True)
 
