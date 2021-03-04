@@ -22,7 +22,7 @@ def mkw(nombre_empresa, ciudad_empresa, calle_empresa ,rut_empresa, nombre_dueno
     context = {
     'nombre_empresa': nombre_empresa,
     'ciudad_empresa': ciudad_empresa,
-    'fecha_actual': time.strftime("%A %d de %B del %Y").upper(),
+    'fecha_actual': traducir(time.strftime("%A %d de %B del %Y").upper()),
 
     'rut_empresa': rut_empresa,
     'nombre_dueno': nombre_dueno,
