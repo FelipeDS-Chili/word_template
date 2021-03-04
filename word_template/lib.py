@@ -56,6 +56,25 @@ def mkw(nombre_empresa, ciudad_empresa, calle_empresa ,rut_empresa, nombre_dueno
     return DocxTemplate('Contrato.docx')
 
 
+
+def traducir (fecha):
+
+    mes_en = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"]
+
+    mes_esp = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"]
+
+    dia_en =["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+
+    dia_esp = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"]
+
+    for idx, mes in enumerate(mes_en):
+        fecha = fecha.replace(mes, mes_esp[idx])
+
+    for idx, dia in enumerate(dia_en):
+        fecha = fecha.replace(dia, dia_esp[idx])
+
+    return fecha
+
 if __name__ == '__main__':
 
     mkw('hola')
